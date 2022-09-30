@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from discord.ext import commands
+from helpers import checkVoiceChannelforUsers
 
 load_dotenv()
 
@@ -64,17 +65,27 @@ async def msg(ctx):
 
 @discord_bot.command(name='whoshere')
 async def msg(ctx):
-    voice_channel = discord_bot.get_channel(775501785103466527) #gets the text_channel you want to get the list from
-    text_channel = discord_bot.get_channel(704502327419076621)
 
-    members = voice_channel.members #finds members connected to the text_channel
+    list_of_channels = []
 
-    memids = [] #(list)
-    for member in members:
-        memids.append(member.id)
+    # the text channel we want the bot to respond in
+    bot_text_channel = discord_bot.get_channel(824498666781933589)
 
-    print(memids) #print info
+    # gets the voice_channel you want to get the list from
+    video_gem_channel = discord_bot.get_channel(775501785103466527)
+    civ_channel = discord_bot.get_channel(953034810408960000)
+    hangout_space_channel = discord_bot.get_channel(704502327419076622)
+    movie_stream_channel = discord_bot.get_channel(837476701780574208)
 
-    await text_channel.send(memids)
-    
+    # there is a better way to do this but I wanted to see if the concept worked
+    list_of_channels.append(checkVoiceChannelforUsers(video_gem_channel))
+    list_of_channels.append(checkVoiceChannelforUsers(civ_channel))
+    list_of_channels.append(checkVoiceChannelforUsers(hangout_space_channel))
+    list_of_channels.append(checkVoiceChannelforUsers(movie_stream_channel))
+
+    # format string so that it looks nice in Discord
+    members_in_voicechat = f"Video Gems : {*list_of_channels[0],} \n Civ : {*list_of_channels[1],} \n Hangout Space : {*list_of_channels[2],} \n Movie Stream : {*list_of_channels[3],} \n "
+
+    await bot_text_channel.send(members_in_voicechat)
+
 discord_bot.run(TOKEN)
