@@ -76,6 +76,5 @@ async def msg(ctx):
     print(memids) #print info
 
     await text_channel.send(memids)
-    await ctx.send(response)
-
+    
 discord_bot.run(TOKEN)
