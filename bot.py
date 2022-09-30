@@ -10,7 +10,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-intents = discord.Intents(messages=True, guilds=True)
+intents = discord.Intents().all()
 intents.members = True
 
 discord_bot = commands.Bot(command_prefix='!', intents=intents)
