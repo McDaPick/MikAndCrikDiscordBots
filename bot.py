@@ -31,8 +31,8 @@ async def on_ready():
     print(f'Guild Members:\n - {members}')
 
     #message channel
-    channel = discord_bot.get_channel(704502327419076621)
-    await channel.send('KEK MY PEEPEE')
+    # channel = discord_bot.get_channel(704502327419076621)
+    # await channel.send('KEK MY PEEPEE')
 
     # DM user
     # user = await client.fetch_user(638429509984583680)
@@ -60,6 +60,22 @@ async def msg(ctx):
     ]
 
     response = random.choice(quotes)
+    await ctx.send(response)
+
+@discord_bot.command(name='whoshere')
+async def msg(ctx):
+    voice_channel = discord_bot.get_channel(775501785103466527) #gets the text_channel you want to get the list from
+    text_channel = discord_bot.get_channel(704502327419076621)
+
+    members = voice_channel.members #finds members connected to the text_channel
+
+    memids = [] #(list)
+    for member in members:
+        memids.append(member.id)
+
+    print(memids) #print info
+
+    await text_channel.send(memids)
     await ctx.send(response)
 
 discord_bot.run(TOKEN)
