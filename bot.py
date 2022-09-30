@@ -1,31 +1,53 @@
-# bot.py
+import discord
+import random
 import os
 
-import discord
 from dotenv import load_dotenv
+from discord.ext import commands
 
 load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-print(TOKEN)
-print(GUILD)
+intents = discord.Intents(messages=True, guilds=True)
+intents.members = True
 
-client = discord.Client(intents=discord.Intents.default())
+discord_bot = commands.Bot(command_prefix='!', intents=intents)
 
-@client.event
+
+@discord_bot.event
 async def on_ready():
-    for guild in client.guilds:
+    for guild in discord_bot.guilds:
         if guild.name == GUILD:
             break
 
     print(
-        f'{client.user} is connected to the following guild:\n'
+        f'{discord_bot.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
 
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-client.run(TOKEN)
+    #message channel
+    channel = discord_bot.get_channel(704502327419076621)
+    await channel.send('KEK MY PEEPEE')
+
+    # DM user
+    # user = await client.fetch_user(638429509984583680)
+    # await user.send('hey bb (; ')
+
+
+@discord_bot.command(name='morningquote')
+async def msg(ctx):
+    quotes = [
+        "It's a new day",
+        (
+            "Be positive"
+        ),
+    ]
+    response = random.choice(quotes)
+    await ctx.send(response)
+
+discord_bot.run(TOKEN)
