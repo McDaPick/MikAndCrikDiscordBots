@@ -50,4 +50,16 @@ async def msg(ctx):
     response = random.choice(quotes)
     await ctx.send(response)
 
+@discord_bot.command(name='kmsquote')
+async def msg(ctx):
+    quotes = [
+        "DO IT PUSSY",
+    (
+        "KEK"
+    ),
+    ]
+
+    response = random.choice(quotes)
+    await ctx.send(response)
+
 discord_bot.run(TOKEN)
