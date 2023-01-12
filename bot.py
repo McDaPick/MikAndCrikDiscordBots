@@ -31,12 +31,6 @@ async def on_ready():
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-<<<<<<< HEAD
-    discord.Client.channels.cache.get('704502327419076621').send('kek')
-
-
-client.run(TOKEN)
-=======
     #message channel
     # channel = discord_bot.get_channel(704502327419076621)
     # await channel.send('KEK MY PEEPEE')
@@ -95,4 +89,3 @@ async def msg(ctx):
     await bot_text_channel.send(members_in_voicechat)
 
 discord_bot.run(TOKEN)
->>>>>>> 296ca1bb49f2540fba32027aafd82204b9cf9899
