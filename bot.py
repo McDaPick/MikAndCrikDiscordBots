@@ -1,10 +1,15 @@
 import discord
 import random
 import os
+import apscheduler
+
+#async scheduler so it does not block other events
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
 
 from dotenv import load_dotenv
 from discord.ext import commands
-from helpers import checkVoiceChannelforUsers
+from helpers import *
 
 load_dotenv()
 
@@ -15,7 +20,6 @@ intents = discord.Intents().all()
 intents.members = True
 
 discord_bot = commands.Bot(command_prefix='!', intents=intents)
-
 
 @discord_bot.event
 async def on_ready():
@@ -31,13 +35,17 @@ async def on_ready():
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-    #message channel
-    # channel = discord_bot.get_channel(704502327419076621)
-    # await channel.send('KEK MY PEEPEE')
+    #initializing scheduler
+    scheduler = AsyncIOScheduler()
+    #sends "message" to the channel when time hits 10/20/30/40/50/60 seconds, like 12:04:20 PM
+    scheduler.add_job(smonk_warning, CronTrigger(hour="16", minute="15", second="0"))
+    #starting the scheduler
+    scheduler.start()
 
-    # DM user
-    # user = await client.fetch_user(638429509984583680)
-    # await user.send('hey bb (; ')
+# 420 Listener
+async def smonk_warning():
+    smonk = discord_bot.get_channel(907710087857049661)
+    await smonk.send("!! FIVE MINUTES UNTIL 420 !!")
 
 
 @discord_bot.command(name='morningquote')
@@ -87,5 +95,4 @@ async def msg(ctx):
     members_in_voicechat = f"Video Gems : {*list_of_channels[0],} \n Civ : {*list_of_channels[1],} \n Hangout Space : {*list_of_channels[2],} \n Movie Stream : {*list_of_channels[3],} \n "
 
     await bot_text_channel.send(members_in_voicechat)
-
 discord_bot.run(TOKEN)
