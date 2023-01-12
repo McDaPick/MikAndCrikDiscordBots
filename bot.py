@@ -28,4 +28,7 @@ async def on_ready():
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
+    discord.Client.channels.cache.get('704502327419076621').send('kek')
+
+
 client.run(TOKEN)
