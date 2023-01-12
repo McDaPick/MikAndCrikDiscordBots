@@ -21,33 +21,42 @@ intents.members = True
 
 discord_bot = commands.Bot(command_prefix='!', intents=intents)
 
+# set bot event listener
 @discord_bot.event
 async def on_ready():
+    startup()
+    sched()
+
+# server info on startup of bot
+def startup():
+    # get guild name
     for guild in discord_bot.guilds:
         if guild.name == GUILD:
             break
 
+    # print everyone online
     print(
         f'{discord_bot.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'
     )
-
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
-
-    #initializing scheduler
-    scheduler = AsyncIOScheduler()
-    #sends "message" to the channel when time hits 10/20/30/40/50/60 seconds, like 12:04:20 PM
-    scheduler.add_job(smonk_warning, CronTrigger(hour="16", minute="15", second="0"))
-    #starting the scheduler
-    scheduler.start()
 
 # 420 Listener
 async def smonk_warning():
     smonk = discord_bot.get_channel(907710087857049661)
     await smonk.send("!! FIVE MINUTES UNTIL 420 !!")
 
+# set and start scheduler
+def sched():
+    #initializing scheduler
+    scheduler = AsyncIOScheduler()
+    #sends "message" to the channel when time hits 10/20/30/40/50/60 seconds, like 12:04:20 PM
+    scheduler.add_job(smonk_warning, CronTrigger(hour="15", minute="49", second="0"))
+    #starting the scheduler
+    scheduler.start()
 
+# send nice moringquote
 @discord_bot.command(name='morningquote')
 async def msg(ctx):
     quotes = [
@@ -59,6 +68,7 @@ async def msg(ctx):
     response = random.choice(quotes)
     await ctx.send(response)
 
+# when you stub your toe
 @discord_bot.command(name='kmsquote')
 async def msg(ctx):
     quotes = [
@@ -71,6 +81,7 @@ async def msg(ctx):
     response = random.choice(quotes)
     await ctx.send(response)
 
+# posts in bot-commands everyone in our voice channels
 @discord_bot.command(name='whoshere')
 async def msg(ctx):
 
@@ -95,4 +106,5 @@ async def msg(ctx):
     members_in_voicechat = f"Video Gems : {*list_of_channels[0],} \n Civ : {*list_of_channels[1],} \n Hangout Space : {*list_of_channels[2],} \n Movie Stream : {*list_of_channels[3],} \n "
 
     await bot_text_channel.send(members_in_voicechat)
+
 discord_bot.run(TOKEN)
