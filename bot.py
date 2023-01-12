@@ -52,7 +52,7 @@ def sched():
     #initializing scheduler
     scheduler = AsyncIOScheduler()
     #sends "message" to the channel when time hits 10/20/30/40/50/60 seconds, like 12:04:20 PM
-    scheduler.add_job(smonk_warning, CronTrigger(hour="15", minute="49", second="0"))
+    scheduler.add_job(smonk_warning, CronTrigger(hour="16", minute="15", second="0"))
     #starting the scheduler
     scheduler.start()
 
